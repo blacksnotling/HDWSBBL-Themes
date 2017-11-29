@@ -1,11 +1,14 @@
 /*
-Theme Name: Team Theme 1 - Crownstar
-Theme URI: http://network.hdwsbbl.co.uk
-Description: Team Theme 1 for the HDWSBBL Team News Network
-Version: 1.1
+Theme Name: Crownstar (Team Theme 1)
+Theme URI: https://github.com/blacksnotling/HDWSBBL-Themes
+Description: Team Theme 1 for the HDWSBBL Team News Network.
+Version: 20171129
 Author: The HDWSBBL
-Author URI: http://www.hdwsbbl.co.uk
-
+Author URI: https://github.com/blacksnotling
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: crownstar
+*/
 /***** Core Formatting *****/
 * {
 	margin:0;
@@ -57,10 +60,10 @@ body {
 	font-size:1.5em;
 }
 /***** Navigation *****/
-#navcontainer { 
+#navcontainer {
 	display: block;
-	height: 40px; 
-	font-size: 1.2em; 
+	height: 40px;
+	font-size: 1.2em;
 	border-top: solid 1px #3366FF;
 	border-bottom: solid 1px #3366FF;
 	text-align: center;
@@ -77,7 +80,7 @@ body {
 #navcontainer ul li a {
 	font-weight: bold;
 	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
-	font-size: 1em;	
+	font-size: 1em;
 	display: block;
 	line-height: 30px;
 	margin: 0;
@@ -85,7 +88,7 @@ body {
 	text-decoration: none;
 	padding-left: 16px;
 	padding-right: 5px;
-	color: #3366FF;	
+	color: #3366FF;
 }
 #navcontainer ul li a:hover {
 	color: #FF4D00;
@@ -113,7 +116,7 @@ body {
 }
 #maincontent h2, #maincontent h3, #maincontent h4, #maincontent h5 {
 	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
-	text-align: left;	
+	text-align: left;
 }
 #maincontent h2 {
 	font-weight: bold;
@@ -127,10 +130,10 @@ body {
 	padding-bottom: 0.2em;
 }
 #maincontent h4 {
-	font-size: 1.2em;	
+	font-size: 1.2em;
 }
 #maincontent h5 {
-	font-size: 1.1em;	
+	font-size: 1.1em;
 }
 .postmeta {
 	text-align: right;
@@ -156,7 +159,7 @@ body {
 	padding: 3px;
 	border: 1px solid #aaa;
 	background: #ddd url(images/bg_detail.gif) top repeat-y;
-	margin-bottom: 0.6em;	
+	margin-bottom: 0.6em;
 }
 /***** Sub Content (Sidebar) *****/
 #subcontent {
@@ -188,7 +191,7 @@ body {
 	padding-left: 0.4em;
 }
 #subcontent dd {
-	padding-left: 0.7em;	
+	padding-left: 0.7em;
 }
 #subcontent dt {
 	display:none;
@@ -419,7 +422,7 @@ form #submit {
 	margin: 0;
 	float: right;
 	background-color:#ddd;
-	border:1px solid #999;	
+	border:1px solid #999;
 }
 form p {
 	margin: 5px 0;
