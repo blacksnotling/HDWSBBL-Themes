@@ -16,7 +16,7 @@
 	if (isset($tname)) {
 ?>
 	<strong><?php print($tname); ?></strong> are proudly part of the <a href="http://www.hdwsbbl.co.uk">HDWSBBL</a>.
-<?
+<?php
 	}
 ?>
  Site powered by <a href="http://www.wordpress.org/" title="WordPress">WordPress</a></p>
