@@ -9,7 +9,7 @@ function crownstar_theme_setup() {
 	 * If you're building a theme based on Twenty Sixteen, use a find and replace
 	 * to change 'twentysixteen' to the name of your theme in all the template files
 	 */
-	load_theme_textdomain( 'oberwald' );
+	load_theme_textdomain( 'crownstar' );
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	//add_editor_style();
 
@@ -67,98 +67,144 @@ function crownstar_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'crownstar_page_menu_args' );
 
 /**
- * Prints HTML with meta information for the current post—date/time and author.
+ * Returns a "Continue Reading" link for excerpts
  *
- * @since 1.0
+ * @return string "Continue Reading" link
  */
-function teamtheme_posted_on() {
-	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'crownstar' ),
-		'meta-prep meta-prep-author',
+function crownstar_continue_reading_link() {
+	return '<p class="readmorelink">Continue reading <a href="'. get_permalink() . '">'.get_the_title().' &raquo;</a></p>';
+}
+
+/**
+ * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and oberwald_continue_reading_link().
+ *
+ * To override this in a child theme, remove the filter and add your own
+ * function tied to the excerpt_more filter hook.
+ *
+ * @return string An ellipsis
+ */
+function crownstar_auto_excerpt_more( $more ) {
+	return ' &hellip;' . crownstar_continue_reading_link();
+}
+add_filter( 'excerpt_more', 'crownstar_auto_excerpt_more' );
+
+/**
+ * Adds a pretty "Continue Reading" link to custom post excerpts.
+ *
+ * To override this link in a child theme, remove the filter and add your own
+ * function tied to the get_the_excerpt filter hook.
+ *
+ * @return string Excerpt with a pretty "Continue Reading" link
+ */
+function crownstar_custom_excerpt_more( $output ) {
+	if ( has_excerpt() && ! is_attachment() ) {
+		$output .= crownstar_continue_reading_link();
+	}
+	return $output;
+}
+add_filter( 'get_the_excerpt', 'crownstar_custom_excerpt_more' );
+
+/**
+ * Prints HTML with meta information for the current post date/time and author.
+ *
+ */
+function crownstar_posted_on() {
+	printf( __( 'Posted on %1$s', 'crownstar' ),
 		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
 			get_permalink(),
 			esc_attr( get_the_time() ),
 			get_the_date()
-		),
-		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-			get_author_posts_url( get_the_author_meta( 'ID' ) ),
-			sprintf( esc_attr__( 'View all posts by %s', 'crownstar' ), get_the_author() ),
-			get_the_author()
 		)
 	);
 }
+
 /**
  * Prints HTML with meta information for the current post (category, tags and permalink).
  *
- * @since 1.0
  */
-function teamtheme_posted_in() {
+function crownstar_posted_in() {
+global $post;
 	// Retrieves tag list of current post, separated by commas.
 	$tag_list = get_the_tag_list( '', ', ' );
+
 	if ( $tag_list ) {
-		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. ', 'crownstar' );
+		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. &lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
-		$posted_in = __( 'This entry was posted in %1$s.', 'crownstar' );
+		$posted_in = __( 'This entry was posted in %1$s. &lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	} else {
-		$posted_in = __( '', 'crownstar' );
+		$posted_in = __( '&lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	}
 	// Prints the string, replacing the placeholders.
 	printf(
 		$posted_in,
 		get_the_category_list( ', ' ),
 		$tag_list,
+		get_permalink(),
 		the_title_attribute( 'echo=0' )
 	);
 }
 
-// Custom callback to list comments in the theme style
-// based off http://themeshaper.com/wordpress-theme-comments-template-tutorial/
-function custom_comments($comment, $args, $depth) {
-  $GLOBALS['comment'] = $comment;
-        $GLOBALS['comment_depth'] = $depth;
-  ?>
-        <li id="comment-<?php comment_ID() ?>" <?php comment_class() ?>>
-                <div class="comment-author vcard"><?php commenter_link() ?></div>
-                <div class="comment-meta"><?php printf(__('Posted %1$s at %2$s <span class="meta-sep">|</span> <a href="%3$s" title="Permalink to this comment">Permalink</a>', 'crownstar'),
-                                        get_comment_date(),
-                                        get_comment_time(),
-                                        '#comment-' . get_comment_ID() );
-                                        edit_comment_link(__('Edit', 'crownstar'), ' <span class="meta-sep">|</span> <span class="edit-link">', '</span>'); ?></div>
+/**
+ * A simple wrapper function to display the number of comments.
+ * A wrapper function is used so that if the text needs to be updated in the future I only hve to change it in one place.
+ *
+ */
+function crownstar_comments_link() {
+	comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;');
+}
 
-	       		<div class="comment-content">
-	                	<?php comment_text() ?>
-	                </div>
+/**
+ * Template for comments and pingbacks.
+ *
+ * Used as a callback by wp_list_comments() for displaying the comments.
+ *
+ * Based off the twerntyeleven theme
+ */
+function crownstar_comment( $comment, $args, $depth ) {
+	$GLOBALS['comment'] = $comment;
+	switch ( $comment->comment_type ) :
+		case 'pingback' :
+		case 'trackback' :
+	?>
+	<li class="post pingback">
+		<p><?php _e( 'Pingback:', 'crownstar' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( 'Edit', 'crownstar' ), '<span class="edit-link">', '</span>' ); ?></p>
+	<?php
+			break;
+		default :
+	?>
+	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+		<div class="comment-author vcard">
+			<?php echo get_avatar( $comment, 39 ); ?>
+			</div><!-- .comment-author .vcard -->
+			<div class="comment-meta">
+				<?php
+				printf( __( '<strong>%1$s</strong><br /> on %2$s <span class="says">said:</span>', 'crownstar' ),
+					sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
+					sprintf( '<a href="%1$s"><time pubdate datetime="%2$s">%3$s</time></a>',
+						esc_url( get_comment_link( $comment->comment_ID ) ),
+						get_comment_time( 'c' ),
+						sprintf( __( '%1$s at %2$s', 'crownstar' ), get_comment_date(), get_comment_time() )
+					)
+				);
+				?>
+			</div><!-- end of .comment-meta -->
 
-                <?php // echo the comment reply link
-                        if($args['type'] == 'all' || get_comment_type() == 'comment') :
-                                comment_reply_link(array_merge($args, array(
-                                        'reply_text' => __('Reply','crownstar'),
-                                        'login_text' => __('Log in to reply.','crownstar'),
-                                        'depth' => $depth,
-                                        'before' => '<div class="comment-reply-link">',
-                                        'after' => '</div>'
-                                )));
-                        endif;
-?>
+			<?php edit_comment_link( __( 'Edit', 'crownstar' ), '<span class="edit-link">', '</span>' ); ?>
 
-  				<?php if ($comment->comment_approved == '0') _e("\t\t\t\t\t<span class='info'>Your comment is awaiting moderation.</span>\n", 'crownstar') ?>
+			<?php if ( $comment->comment_approved == '0' ) : ?>
+				<span class="info"><?php _e( 'Your comment is awaiting moderation.', 'crownstar' ); ?></span>
+				<br />
+			<?php endif; ?>
 
+			<div class="comment-content"><?php comment_text(); ?></div>
 
+			<div class="comment-reply-link">
+				<?php comment_reply_link( array_merge( $args, array( 'reply_text' => __( 'Reply <span>&darr;</span>', 'crownstar' ), 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+			</div><!-- .reply -->
 
-<?php } // end custom_comments
-
-// Produces an avatar image with the hCard-compliant photo class
-// http://themeshaper.com/wordpress-theme-comments-template-tutorial/
-function commenter_link() {
-        $commenter = get_comment_author_link();
-        if ( ereg( '<a[^>]* class=[^>]+>', $commenter ) ) {
-                $commenter = ereg_replace( '(<a[^>]* class=[\'"]?)', '\\1url ' , $commenter );
-        } else {
-                $commenter = ereg_replace( '(<a )/', '\\1class="url "' , $commenter );
-        }
-        $avatar_email = get_comment_author_email();
-        $avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( $avatar_email, 38 ) );
-        echo $avatar . ' <span class="fn n">' . $commenter . '</span>';
-} // end commenter_link
-
+	<?php
+			break;
+	endswitch;
+}
 
 ?>

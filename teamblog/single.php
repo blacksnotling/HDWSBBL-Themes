@@ -12,14 +12,14 @@
 		</ul>
 		<div class="entry">
 			<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-			<p class="postdate"><?php teamtheme_posted_on(); ?></p>
+			<p class="postdate"><?php crownstar_posted_on(); ?></p>
 
 			<?php the_content('Read the rest of this entry &raquo;'); ?>
 
-			<p class="postmeta"><?php teamtheme_posted_in() ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+			<p class="postmeta"><?php crownstar_posted_in() ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
 		</div>
 
-	<?php comments_template(); ?>
+	<?php comments_template( '', true ); ?>
 		<?php endwhile; ?>
 		<?php endif; ?>
 
