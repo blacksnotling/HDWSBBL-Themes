@@ -1,7 +1,4 @@
 <?php get_header(); ?>
-		<div id="breadcrumb">
-			<?php if ( function_exists( 'breadcrumb_trail' ) ) breadcrumb_trail(); ?>
-		</div>
 		<div class="entry">
 			<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<h2 class="entry-title"><?php _e( 'Turnover!', 'crownstar' ); ?></h2>

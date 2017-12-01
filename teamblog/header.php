@@ -32,3 +32,6 @@
 	<div id="pagecontent">
 	<div id="maincontent_wrapper">
 		<div id="maincontent">
+			<div id="breadcrumb">
+				<?php if ( function_exists( 'breadcrumb_trail' ) ) breadcrumb_trail(); ?>
+			</div>

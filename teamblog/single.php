@@ -2,10 +2,6 @@
 	<?php if (have_posts()) : ?>
 		<?php while (have_posts()) : the_post(); ?>
 
-		<div id="breadcrumb">
-			<p><a href="<?php echo home_url(); ?>" title="Back to the front of <?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> &raquo; News &raquo; <?php the_title(); ?></p>
-		</div>
-
 		<ul class="subnav">
 			<?php next_posts_link('<li>&laquo; Previous Entries</li>') ?>
 			<?php previous_posts_link('<li>Next Entries &raquo;</li>') ?>

@@ -1,7 +1,4 @@
 <?php get_header(); ?>
-		<div id="breadcrumb">
-			<p><a href="<?php echo home_url(); ?>" title="Back to the front of <?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> &raquo; Archive</p>
-		</div>
 		<?php if (have_posts()) : ?>
 
  	  <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
