@@ -9,7 +9,7 @@
 
 <?php wp_head(); ?>
 </head>
-<body>
+<body <?php body_class(); ?>>
 <?php
 	if ( function_exists( 'bbtn_header_bar_init' ) ) {
 		bbtn_header_bar_init();
