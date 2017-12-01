@@ -11,7 +11,7 @@
 
 					<?php the_excerpt(); ?>
 
-					<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'bblm' ), 'after' => '</div>' ) ); ?>
+					<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'crownstar' ), 'after' => '</div>' ) ); ?>
 
 					<p class="postmeta"><?php crownstar_posted_in() ?> <?php edit_post_link( __( 'Edit', 'crownstar' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?> <?php crownstar_comments_link(); ?></p>
 				</div>
@@ -24,8 +24,8 @@
 
 <?php if (  $wp_query->max_num_pages > 1 ) : ?>
 				<div id="nav-below" class="subnav">
-					<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&laquo;</span> Older Entries', 'bblm' ) ); ?></div>
-					<div class="nav-next"><?php previous_posts_link( __( 'Newer Entries <span class="meta-nav">&raquo;</span>', 'bblm' ) ); ?></div>
+					<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&laquo;</span> Older Entries', 'crownstar' ) ); ?></div>
+					<div class="nav-next"><?php previous_posts_link( __( 'Newer Entries <span class="meta-nav">&raquo;</span>', 'crownstar' ) ); ?></div>
 				</div><!-- #nav-below -->
 <?php endif; ?>
 
