@@ -2,7 +2,7 @@
 Theme Name: Crownstar (Team Theme 1)
 Theme URI: https://github.com/blacksnotling/HDWSBBL-Themes
 Description: Team Theme 1 for the HDWSBBL Team News Network.
-Version: 20171130
+Version: 20171209
 Author: The HDWSBBL
 Author URI: https://github.com/blacksnotling
 License: GNU General Public License v2 or later
@@ -342,89 +342,56 @@ img.alignright {
 #comments {
     padding:19px 0 38px 0;
 }
-#comments-list {
-    padding:0 0 19px 0;
-}
-#comments-list ol,
-#comments-list ul {
+li.comment {
+    padding: 5px;
     list-style:none;
-    margin:0;
+    margin:0 0 19px 0;
+		background-color:#fafafa;
+		border:1px solid #ccc;
 }
-#comments-list ol {
+ol.comment-list {
     background-color:#fafafa;
-}
-#comments-list ol {
     border:1px solid #ccc;
     border-bottom:none;
     margin:0;
 }
-#comments-list li {
-    background-color:#fafafa;
-    border-bottom:1px solid #ccc;
-    padding:19px 1.5em 0 1.5em;
-    position:relative;
-}
-#comments-list li.alt {
+li.comment.alt {
     background:#eee;
 }
-#comments-list ul li {
-    border:1px solid #ccc;
-    margin:0 0 19px 0;
+.comment-body .comment-author img.avatar {
+    position:relative;
+    top:15px;
+    left:5px;
 }
-#comments-list li .avatar {
-    position:absolute;
-    top:25px;
-    left:1.5em;
-}
-#comments-list .comment-author {
+.comment-body .comment-author cite {
     font-weight:bold;
-    padding:9px 0 0 46px;
+    padding:9px 0 0 5px;
 }
-#comments-list .comment-meta {
+.comment-body .comment-meta {
     color:#666;
     font-size:11px;
-    padding:0 0 9px 46px;
+    padding:0 0 9px 50px;
 }
-.comment-reply-link {
-    font-size:11px;
-    padding:0 0 19px 0;
-    text-align:right;
-}
-.comment-navigation {
-    font-weight:bold;
-    padding:0 0 19px 0;
-    margin-right:0.5em;
-}
-.comment-navigation a {
-    border:1px solid #ccc;
-    font-weight:normal;
-    padding:0.5em 0.75em;
-    text-decoration:none;
-}
-.comment-navigation a,
-.comment-navigation span {
-    margin-right:0.5em;
-}
-form label {
+
+form.comment-form label {
 	font-size: 90%;
 }
-form input {
+form.comment-form input {
 	width: 170px;
 	padding: 2px;
 	margin: 5px 5px 1px 0;
 }
-
-form textarea {
+form.comment-form textarea {
 	width: 100%;
 	padding: 2px;
 }
-form #submit {
+form.comment-form #submit {
 	margin: 0;
 	float: right;
 	background-color:#ddd;
 	border:1px solid #999;
 }
-form p {
+form.comment-form p {
 	margin: 5px 0;
 }
 /***** Wordpress styles *****/
