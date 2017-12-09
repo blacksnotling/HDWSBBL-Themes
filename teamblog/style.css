@@ -105,35 +105,44 @@ body {
 	text-align: justify;
 	background-color: #fefefe;
 }
-#maincontent p, #maincontent h2, #maincontent h3, #maincontent h4, #maincontent h5, #maincontent table, #maincontent blockquote {
+#maincontent p, #maincontent h1, #maincontent h2, #maincontent h3, #maincontent h4, #maincontent h5, #maincontent table, #maincontent blockquote, #maincontent table, #maincontent dl  {
+	margin-bottom: 0.6em;
 	margin-bottom: 0.6em;
 }
 #maincontent ul, #maincontent ol {
 	line-height: 160%;
 	margin: 0.4em 0 0.6em 1.5em;
 	padding: 0 0.6em 0 1em;
-	list-style-position: inside;
+	list-style-position: outside;
 }
-#maincontent h2, #maincontent h3, #maincontent h4, #maincontent h5 {
+#maincontent h1, #maincontent h2, #maincontent h3, #maincontent h4, #maincontent h5, #maincontent h6 {
 	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	text-align: left;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+h2.entry-title {
+	border-bottom: 1px solid #7A99FF;
+}
+#maincontent h1 {
+	font-size: 2.1em;
 }
 #maincontent h2 {
-	font-weight: bold;
-	font-size: 1.8em;
-	border-bottom: 1px solid #7A99FF;
-	padding-bottom: 3px;
-	text-transform:capitalize;
+	font-size: 1.9em;
 }
 #maincontent h3 {
-	font-size: 1.4em;
+	font-size: 1.6em;
 	padding-bottom: 0.2em;
 }
 #maincontent h4 {
-	font-size: 1.2em;
+	font-size: 1.4em;
 }
 #maincontent h5 {
+	font-size: 1.2em;
+}
+#maincontent h6 {
 	font-size: 1.1em;
+	padding-bottom: 3px;
 }
 .postmeta {
 	text-align: right;
@@ -256,6 +265,9 @@ table th {
 	font-weight: bold;
 	text-align: center;
 }
+table th a {
+	color: #fff;
+}
 
 table tr.tbl_alt {
 	background-color: #ddd;
@@ -337,6 +349,12 @@ img.alignright {
 	float:right;
 	padding-left: 10px;
 	padding-bottom: 10px;
+}
+dl dt {
+	font-weight:bold;
+}
+dl dd {
+	padding-left: 15px;
 }
 /***** Comments *********/
 #comments {
