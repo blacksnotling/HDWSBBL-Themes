@@ -7,13 +7,13 @@
 			<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				<h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
-				<p class="postdate"><?php crownstar_posted_on() ?></p>
+				<p class="postdate"><?php vonlipwig_posted_on() ?></p>
 
 				<?php the_content(); ?>
 
-				<?php wp_link_pages( array( 'before' => '<div class="subnav">' . __( 'Pages:', 'crownstar' ), 'after' => '</div>' ) ); ?>
+				<?php wp_link_pages( array( 'before' => '<div class="subnav">' . __( 'Pages:', 'vonlipwig' ), 'after' => '</div>' ) ); ?>
 
-				<p class="postmeta"><?php crownstar_posted_in() ?> <?php edit_post_link( __( 'Edit', 'crownstar' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?></p>
+				<p class="postmeta"><?php vonlipwig_posted_in() ?> <?php edit_post_link( __( 'Edit', 'vonlipwig' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?></p>
 
 			</div>
 

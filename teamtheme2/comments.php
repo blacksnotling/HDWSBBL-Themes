@@ -27,7 +27,7 @@ if ( post_password_required() ) {
 			$comments_number = get_comments_number();
 			if ( '1' === $comments_number ) {
 				/* translators: %s: post title */
-				printf( _x( 'One Reply to &ldquo;%s&rdquo;', 'comments title', 'crownstar' ), get_the_title() );
+				printf( _x( 'One Reply to &ldquo;%s&rdquo;', 'comments title', 'vonlipwig' ), get_the_title() );
 			} else {
 				printf(
 					/* translators: 1: number of comments, 2: post title */
@@ -36,7 +36,7 @@ if ( post_password_required() ) {
 						'%1$s Replies to &ldquo;%2$s&rdquo;',
 						$comments_number,
 						'comments title',
-						'crownstar'
+						'vonlipwig'
 					),
 					number_format_i18n( $comments_number ),
 					get_the_title()
@@ -51,14 +51,14 @@ if ( post_password_required() ) {
 					'avatar_size' => 40,
 					'style'       => 'ol',
 					'short_ping'  => true,
-					'reply_text'  => __( 'Reply', 'crownstar' ),
+					'reply_text'  => __( 'Reply', 'vonlipwig' ),
 				) );
 			?>
 		</ol>
 
 		<?php the_comments_pagination( array(
-			'prev_text' => '<span class="screen-reader-text">' . __( 'Previous', 'crownstar' ) . '</span>',
-			'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'crownstar' ) . '</span>',
+			'prev_text' => '<span class="screen-reader-text">' . __( 'Previous', 'vonlipwig' ) . '</span>',
+			'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'vonlipwig' ) . '</span>',
 		) );
 
 	endif; // Check for have_comments().
@@ -66,7 +66,7 @@ if ( post_password_required() ) {
 	// If comments are closed and there are comments, let's leave a little note, shall we?
 	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) : ?>
 
-		<p class="no-comments"><?php _e( 'Comments are closed.', 'crownstar' ); ?></p>
+		<p class="no-comments"><?php _e( 'Comments are closed.', 'vonlipwig' ); ?></p>
 	<?php
 	endif;
 

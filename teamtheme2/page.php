@@ -10,9 +10,9 @@
 
 				<?php the_content(); ?>
 
-				<?php wp_link_pages( array( 'before' => '<div class="subnav">' . __( 'Pages:', 'crownstar' ), 'after' => '</div>' ) ); ?>
+				<?php wp_link_pages( array( 'before' => '<div class="subnav">' . __( 'Pages:', 'vonlipwig' ), 'after' => '</div>' ) ); ?>
 
-				<p class="postmeta"><?php edit_post_link( __( 'Edit', 'crownstar' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?></p>
+				<p class="postmeta"><?php edit_post_link( __( 'Edit', 'vonlipwig' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?></p>
 
 			</div>
 
