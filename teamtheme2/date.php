@@ -6,7 +6,7 @@
 <?php elseif ( is_month() ) : ?>
 				<?php printf( __( 'Monthly Archives: <span>%s</span>', 'vonlipwig' ), get_the_date('F Y') ); ?>
 <?php elseif ( is_year() ) : ?>
-				<?php printf( __( 'Yearly Archives: <span>%s</span>', 'oberwld' ), get_the_date('Y') ); ?>
+				<?php printf( __( 'Yearly Archives: <span>%s</span>', 'vonlipwig' ), get_the_date('Y') ); ?>
 <?php else : ?>
 				<?php _e( 'Blog Archives', 'vonlipwig' ); ?>
 <?php endif; ?></h2>
