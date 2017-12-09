@@ -1,110 +1,156 @@
 <?php
-//Register Sidebars Widget areas
-if ( function_exists('register_sidebar') ) {
-	register_sidebar(array('name'=>'sidebar-posts',
+/** Tell WordPress to run crownstar_theme_setup() when the 'after_setup_theme' hook is run. */
+add_action( 'after_setup_theme', 'crownstar_theme_setup' );
+
+function crownstar_theme_setup() {
+	/*
+	 * Make theme available for translation.
+	 * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentysixteen
+	 * If you're building a theme based on Twenty Sixteen, use a find and replace
+	 * to change 'twentysixteen' to the name of your theme in all the template files
+	 */
+	load_theme_textdomain( 'crownstar' );
+	// This theme styles the visual editor with editor-style.css to match the theme style.
+	//add_editor_style();
+
+	// Add default posts and comments RSS feed links to head
+	add_theme_support( 'automatic-feed-links' );
+	/*
+	 * Let WordPress manage the document title.
+	 * By adding theme support, we declare that this theme does not use a
+	 * hard-coded <title> tag in the document head, and expect WordPress to
+	 * provide it for us.
+	 */
+	add_theme_support( 'title-tag' );
+
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'primary' => __( 'Primary Navigation', 'crownstar' ),
+	) );
+
+}
+
+/**
+ * Register widgetized areas,
+ *
+ * To override crownstar_widgets_init() in a child theme, remove the action hook and add your own
+ * function tied to the init hook.
+ *
+ * @uses register_sidebar
+ */
+function crownstar_widgets_init() {
+	register_sidebar(array(
+		'name'=> __( 'sidebar-posts', 'crownstar' ),
+		'id'=> 'sidebar-posts',
+		'description' => __( 'Appears at the top of the sidebar area for all pages and posts.', 'crownstar' ),
 		'before_widget' => '<li id="%1$s" class="widget %2$s">',
 		'after_widget' => '</li>',
-		'before_title' => '<h2 class="widgettitle">',
+		'before_title' => '<h2>',
 		'after_title' => '</h2>',
 	));
 }
-//Define what WP features are to be used
-add_theme_support( 'menus' );
 
+/** Register sidebars by running bblm_widgets_init() on the widgets_init hook. */
+add_action( 'widgets_init', 'crownstar_widgets_init' );
 
 /**
- * Prints HTML with meta information for the current post—date/time and author.
+ * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
- * @since 1.0
+ * To override this in a child theme, remove the filter and optionally add
+ * your own function tied to the wp_page_menu_args filter hook.
+ *
  */
-function teamtheme_posted_on() {
-	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'twentyten' ),
-		'meta-prep meta-prep-author',
+function crownstar_page_menu_args( $args ) {
+	$args['show_home'] = true;
+	return $args;
+};
+add_filter( 'wp_page_menu_args', 'crownstar_page_menu_args' );
+
+/**
+ * Returns a "Continue Reading" link for excerpts
+ *
+ * @return string "Continue Reading" link
+ */
+function crownstar_continue_reading_link() {
+	return '<p class="readmorelink">Continue reading <a href="'. get_permalink() . '">'.get_the_title().' &raquo;</a></p>';
+}
+
+/**
+ * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and oberwald_continue_reading_link().
+ *
+ * To override this in a child theme, remove the filter and add your own
+ * function tied to the excerpt_more filter hook.
+ *
+ * @return string An ellipsis
+ */
+function crownstar_auto_excerpt_more( $more ) {
+	return ' &hellip;' . crownstar_continue_reading_link();
+}
+add_filter( 'excerpt_more', 'crownstar_auto_excerpt_more' );
+
+/**
+ * Adds a pretty "Continue Reading" link to custom post excerpts.
+ *
+ * To override this link in a child theme, remove the filter and add your own
+ * function tied to the get_the_excerpt filter hook.
+ *
+ * @return string Excerpt with a pretty "Continue Reading" link
+ */
+function crownstar_custom_excerpt_more( $output ) {
+	if ( has_excerpt() && ! is_attachment() ) {
+		$output .= crownstar_continue_reading_link();
+	}
+	return $output;
+}
+add_filter( 'get_the_excerpt', 'crownstar_custom_excerpt_more' );
+
+/**
+ * Prints HTML with meta information for the current post date/time and author.
+ *
+ */
+function crownstar_posted_on() {
+	printf( __( 'Posted on %1$s', 'crownstar' ),
 		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
 			get_permalink(),
 			esc_attr( get_the_time() ),
 			get_the_date()
-		),
-		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-			get_author_posts_url( get_the_author_meta( 'ID' ) ),
-			sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
-			get_the_author()
 		)
 	);
 }
+
 /**
  * Prints HTML with meta information for the current post (category, tags and permalink).
  *
- * @since 1.0
  */
-function teamtheme_posted_in() {
+function crownstar_posted_in() {
+global $post;
 	// Retrieves tag list of current post, separated by commas.
 	$tag_list = get_the_tag_list( '', ', ' );
+
 	if ( $tag_list ) {
-		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. ', 'twentyten' );
+		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. &lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
-		$posted_in = __( 'This entry was posted in %1$s.', 'twentyten' );
+		$posted_in = __( 'This entry was posted in %1$s. &lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	} else {
-		$posted_in = __( '', 'twentyten' );
+		$posted_in = __( '&lt;<a href="%3$s" title="Permalink to %4$s" rel="bookmark">Permalink</a>&gt;.', 'crownstar' );
 	}
 	// Prints the string, replacing the placeholders.
 	printf(
 		$posted_in,
 		get_the_category_list( ', ' ),
 		$tag_list,
+		get_permalink(),
 		the_title_attribute( 'echo=0' )
 	);
 }
 
-// Custom callback to list comments in the your-theme style
-// based off http://themeshaper.com/wordpress-theme-comments-template-tutorial/
-function custom_comments($comment, $args, $depth) {
-  $GLOBALS['comment'] = $comment;
-        $GLOBALS['comment_depth'] = $depth;
-  ?>
-        <li id="comment-<?php comment_ID() ?>" <?php comment_class() ?>>
-                <div class="comment-author vcard"><?php commenter_link() ?></div>
-                <div class="comment-meta"><?php printf(__('Posted %1$s at %2$s <span class="meta-sep">|</span> <a href="%3$s" title="Permalink to this comment">Permalink</a>', 'your-theme'),
-                                        get_comment_date(),
-                                        get_comment_time(),
-                                        '#comment-' . get_comment_ID() );
-                                        edit_comment_link(__('Edit', 'your-theme'), ' <span class="meta-sep">|</span> <span class="edit-link">', '</span>'); ?></div>
-
-	       		<div class="comment-content">
-	                	<?php comment_text() ?>
-	                </div>
-
-                <?php // echo the comment reply link
-                        if($args['type'] == 'all' || get_comment_type() == 'comment') :
-                                comment_reply_link(array_merge($args, array(
-                                        'reply_text' => __('Reply','your-theme'),
-                                        'login_text' => __('Log in to reply.','your-theme'),
-                                        'depth' => $depth,
-                                        'before' => '<div class="comment-reply-link">',
-                                        'after' => '</div>'
-                                )));
-                        endif;
-?>
-
-  				<?php if ($comment->comment_approved == '0') _e("\t\t\t\t\t<span class='info'>Your comment is awaiting moderation.</span>\n", 'your-theme') ?>
-
-
-
-<?php } // end custom_comments
-
-// Produces an avatar image with the hCard-compliant photo class
-// http://themeshaper.com/wordpress-theme-comments-template-tutorial/
-function commenter_link() {
-        $commenter = get_comment_author_link();
-        if ( ereg( '<a[^>]* class=[^>]+>', $commenter ) ) {
-                $commenter = ereg_replace( '(<a[^>]* class=[\'"]?)', '\\1url ' , $commenter );
-        } else {
-                $commenter = ereg_replace( '(<a )/', '\\1class="url "' , $commenter );
-        }
-        $avatar_email = get_comment_author_email();
-        $avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( $avatar_email, 38 ) );
-        echo $avatar . ' <span class="fn n">' . $commenter . '</span>';
-} // end commenter_link
-
+/**
+ * A simple wrapper function to display the number of comments.
+ * A wrapper function is used so that if the text needs to be updated in the future I only hve to change it in one place.
+ *
+ */
+function crownstar_comments_link() {
+	comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;');
+}
 
 ?>

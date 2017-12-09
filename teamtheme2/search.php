@@ -1,41 +1,37 @@
 <?php get_header(); ?>
 
-		<div id="breadcrumb">
-			<p><a href="<?php echo home_url(); ?>" title="Back to the front of <?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a> &raquo; Search Results</p>
-		</div>
-
 	<?php if (have_posts()) : ?>
-
-		<h2 class="pagetitle">Search Results</h2>
-
-		<div class="navigation">
-			<div class="alignleft"><?php next_posts_link('&laquo; Older Entries') ?></div>
-			<div class="alignright"><?php previous_posts_link('Newer Entries &raquo;') ?></div>
-		</div>
-
-
 		<?php while (have_posts()) : the_post(); ?>
 
-		<div class="entry">
-				<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-				<p class="postdate"><?php the_time('F jS, Y') ?> by RSV Press Office</p>
+			<div class="entry">
 
-				<?php the_content('Read the rest of this entry &raquo;'); ?>
+				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-				<p class="postmeta"><?php the_tags('Tags: ', ', ', '<br />'); ?> Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', ' <strong>[</strong> ', ' <strong>]</strong> '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+					<h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
+					<p class="postdate"><?php crownstar_posted_on() ?></p>
+
+					<?php the_content(); ?>
+
+					<?php wp_link_pages( array( 'before' => '<div class="subnav">' . __( 'Pages:', 'crownstar' ), 'after' => '</div>' ) ); ?>
+
+					<p class="postmeta"><?php crownstar_posted_in() ?> <?php edit_post_link( __( 'Edit', 'crownstar' ), ' <strong>[</strong> ', ' <strong>]</strong> '); ?></p>
+
+				</div>
+
 			</div>
 
 		<?php endwhile; ?>
-
-		<div class="navigation">
-			<div class="alignleft"><?php next_posts_link('&laquo; Older Entries') ?></div>
-			<div class="alignright"><?php previous_posts_link('Newer Entries &raquo;') ?></div>
-		</div>
-
 	<?php else : ?>
 
-		<h2 class="center">No posts found. Try a different search?</h2>
-		<?php get_search_form(); ?>
+		<div class="entry">
+			<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+
+				<h2 class="entry-title"><?php _e( 'Not Found!', 'crownstar' ); ?></h2>
+				<p><?php _e( 'The search returned nothing. Please Try again!' , 'crownstar' ) ?></p>
+				<?php get_search_form(); ?>
+
+			</div>
+		</div>
 
 	<?php endif; ?>
 
