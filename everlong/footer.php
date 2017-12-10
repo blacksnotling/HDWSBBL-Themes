@@ -15,8 +15,18 @@
 
       <div id="footer">
         <div id="footer-main">
+<?php
+        if ( is_active_sidebar( 'footer-main' ) ) {
+          dynamic_sidebar( 'footer-main' );
+        }
+?>
         </div>
         <div id="footer-sub">
+<?php
+        if ( is_active_sidebar( 'footer-sub' ) ) {
+          dynamic_sidebar( 'footer-sub' );
+        }
+?>
         </div>
       </div><!-- end of #footer -->
 
